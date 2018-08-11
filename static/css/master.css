@@ -59,6 +59,7 @@ body{
 }
 #btn-skip{
   border: 1px solid #000;
+  background: #fff;
   font-size: 0.8em;
   padding: 0 1em;
   transition: filter .5s .2s, opacity .2s;
