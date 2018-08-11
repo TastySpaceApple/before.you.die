@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtk">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/master.css">
+  </head>
+  <body>
+    <ul id="todolist" class="paper loading">
+      <li>
+      </li>
+      <li>
+        <h1>דברים לעשות</h1>
+      </li>
+      <li><i>לפני (!)</i> שמתים</li>
+      <li>&nbsp;</li>
+      <li class="input-line">
+        <form id="form-add">
+          <input id="txt-new-todo" autocomplete="off" />
+        </form>
+      </li>
+      <li class="input-line">
+        <button id="btn-send" class="loading">שלח</button>
+      </li>
+      <li class="start-line">&nbsp;</li>
+      <li>&nbsp;</li>
+      <li>&nbsp;</li>
+      <li>&nbsp;</li>
+      <li>&nbsp;</li>
+    </ul>
+    <script type="text/javascript">
+      document.querySelector('#form-add').addEventListener('submit', submit)
+      document.querySelector('#btn-send').addEventListener('click', submit)
+      function submit(e){
+        e.preventDefault();
+        if(!!document.querySelector('#txt-new-todo').value)
+          todolist.push(document.querySelector('#txt-new-todo').value);
+      }
+      setTimeout(() => {
+        document.querySelector('#btn-send').classList.remove('loading');
+      }, 1000);
+      window.addEventListener('load', function(){
+        document.querySelector('#txt-new-todo').focus();
+      })
+
+      function removeInputLines(){
+        let lines = document.querySelectorAll('.input-line');
+        lines.forEach(line => { line.remove() });
+      }
+
+      let requests = {
+        post: (action, data) => {
+          return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', action);
+            xhr.onload = function(){
+              resolve(JSON.parse(xhr.responseText));
+            }
+            let formData = new FormData();
+            for(key in data) if(data[key]) formData.append(key, data[key]);
+            xhr.send(formData);
+          })
+        }
+      }
+
+      class TodoList{
+        constructor(el){
+          this.el = el || document.createElement('ul');
+          this.items = [];
+          this.firstLine = this.el.querySelector('.start-line');
+          this.lastFetch = null;
+          this.length = 0;
+        }
+        fetch(){
+          requests.post('/actions/fetch', {since: this.lastFetch})
+            .then(data => {
+              if(!this.lastFetch)
+                removeInputLines();
+              this.update(data.list);
+              this.lastFetch = data.timestamp;
+            })
+            .then(() => setTimeout(() => this.fetch(), 2000))
+        }
+        update(list){
+          list.forEach((item, i) => {
+            let li = document.createElement('li');
+            let span = document.createElement('span');
+            if(!!this.lastFetch || i != list.length-1)
+              span.classList.add('loading');
+            span.textContent = item;
+            span.style.fontSize = 1 + Math.floor((Math.random() * 3)) / 10 + 'em';
+            function motionEffect(){
+              let radius = 1.5;
+              let deg = Math.floor(Math.random() * radius * 2) - radius;
+              let scale = .9 + Math.floor((Math.random() * 4)) / 15;
+              span.style.transform = 'scale(' + scale + ')' + ' rotate('+deg+'deg)';
+            }
+            motionEffect();
+            li.appendChild(span);
+            this.el.insertBefore(li, this.firstLine);
+            span.offsetHeight;
+            this.firstLine = li;
+            span.classList.remove('loading');
+            this.length ++;
+          })
+        }
+        push(text){
+          requests.post('/actions/create', {text})
+            .then(() => this.fetch());
+        }
+      }
+      let todolist = new TodoList(document.querySelector('#todolist'));
+      //todolist.fetch();
+      setTimeout(function(){
+        todolist.el.classList.remove('loading');
+      }, 2000)
+    </script>
+  </body>
+</html>
