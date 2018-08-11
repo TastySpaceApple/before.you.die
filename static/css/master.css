@@ -37,6 +37,9 @@ body{
 #todolist input{
   width: 90%;
 }
+input::placeholder{
+  opacity: .5;
+}
 #btn-send{
   width: auto;
 }
