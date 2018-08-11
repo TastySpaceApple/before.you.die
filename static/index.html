@@ -40,7 +40,9 @@
         document.querySelector('#btn-send').classList.remove('loading');
       }, 1000);
       window.addEventListener('load', function(){
-        document.querySelector('#txt-new-todo').focus();
+        setTimeout(
+          () => document.querySelector('#txt-new-todo').focus(),
+          1000);
       })
 
       function removeInputLines(){

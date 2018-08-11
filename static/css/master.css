@@ -55,6 +55,11 @@ body{
   transition: filter .5s .2s, opacity .2s;
 }
 
+
+@media (orientation: portrait){
+    #todolist { font-size: 80px;}
+}
+
 @media (pointer: fine){
     #todolist { min-height: 101vh; }
 }
