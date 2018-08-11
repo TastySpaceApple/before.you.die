@@ -110,12 +110,21 @@
           requests.post('/actions/create', {text})
             .then(() => this.fetch());
         }
+        setFontSize(fontSize){
+          this.el.style.fontSize = Math.floor(fontSize) + 'px';
+        }
       }
       let todolist = new TodoList(document.querySelector('#todolist'));
       //todolist.fetch();
       setTimeout(function(){
         todolist.el.classList.remove('loading');
       }, 2000)
+
+      var ua = navigator.userAgent.toLowerCase();
+      var isAndroid = ua.indexOf("android") > -1;
+      if(isAndroid){
+        todolist.setFontSize(window.innerHeight * 5/100);
+      }
     </script>
   </body>
 </html>

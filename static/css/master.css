@@ -56,10 +56,6 @@ body{
 }
 
 
-@media (orientation: portrait){
-    #todolist { font-size: 80px;}
-}
-
 @media (pointer: fine){
     #todolist { min-height: 101vh; }
 }
