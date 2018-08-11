@@ -33,7 +33,9 @@ body{
   background: transparent;
   border: none;
   outline: none;
-  width: 100%;
+}
+#todolist input{
+  width: 90%;
 }
 #btn-send{
   width: auto;
@@ -53,8 +55,14 @@ body{
   padding: 0 2em;
   font-size: 0.8em;
   transition: filter .5s .2s, opacity .2s;
+    border: 1px solid #000;
 }
-
+#btn-skip{
+  border: 1px solid #000;
+  font-size: 0.8em;
+  padding: 0 1em;
+  transition: filter .5s .2s, opacity .2s;
+}
 
 @media (pointer: fine){
     #todolist { min-height: 101vh; }

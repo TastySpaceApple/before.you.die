@@ -21,6 +21,7 @@
       </li>
       <li class="input-line">
         <button id="btn-send" class="loading">שלח</button>
+        <button id="btn-skip" class="loading">לרשימה &nbsp; &gt;</button>
       </li>
       <li class="start-line">&nbsp;</li>
       <li>&nbsp;</li>
@@ -36,8 +37,10 @@
         if(!!document.querySelector('#txt-new-todo').value)
           todolist.push(document.querySelector('#txt-new-todo').value);
       }
+      document.querySelector('#btn-skip').addEventListener('click', () => todolist.fetch())
       setTimeout(() => {
         document.querySelector('#btn-send').classList.remove('loading');
+        document.querySelector('#btn-skip').classList.remove('loading');
       }, 1000);
       window.addEventListener('load', function(){
         setTimeout(
