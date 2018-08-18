@@ -17,7 +17,7 @@ body{
   user-select: none;
 }
 #todolist li{
-  height: 1em;
+  /* height: 1em; */
   display: block;
   border-bottom: 1px solid #DFE8EC;
   padding: .5em 1.5em .2em .5em;
